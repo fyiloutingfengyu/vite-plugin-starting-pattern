@@ -1,7 +1,9 @@
 import type { Plugin } from 'vite';
 import colors from 'picocolors';
+import { Color } from '../type';
+import patternList from './pattern-list';
 
-export default function startingPattern(type = '', color: string = 'green'): Plugin {
+export default function startingPattern(type = '', color: Color = 'green'): Plugin {
   return {
     name: 'vite-plugin-starting-pattern',
     apply: 'serve',
@@ -23,24 +25,13 @@ export default function startingPattern(type = '', color: string = 'green'): Plu
           return;
         }
 
-        // todo f 完善type
-        // todo f 配置颜色
-        switch (type) {
-          case 'type1':
-            outPutLogInfo('*****type1*****');
-            break;
-          case 'type2':
-            outPutLogInfo('*****type2*****');
-            break;
-          default:
-            outPutLogInfo('|____ *** success *** ____|\n ' +
-              '|----******************----| \n' +
-              '|---********************---| \n');
-            break;
+        if (type) {
+          outPutLogInfo(patternList[type]);
+        } else {
+          outPutLogInfo(patternList.default);
         }
+
         print();
-
-
       };
     }
   };
