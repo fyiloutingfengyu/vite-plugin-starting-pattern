@@ -3,7 +3,8 @@ import colors from 'picocolors';
 import { Color } from '../type';
 import patternList from './pattern-list';
 
-export default function startingPattern(type = '', color: Color = 'green'): Plugin {
+export default function startingPattern(type = 'default', color: Color = 'green', pattern = ''): Plugin {
+  console.log(555,pattern);
   return {
     name: 'vite-plugin-starting-pattern',
     apply: 'serve',
@@ -25,10 +26,11 @@ export default function startingPattern(type = '', color: Color = 'green'): Plug
           return;
         }
 
-        if (type) {
-          outPutLogInfo(patternList[type]);
+        // 用户自定义图案
+        if (pattern) {
+          outPutLogInfo(pattern);
         } else {
-          outPutLogInfo(patternList.default);
+          outPutLogInfo(patternList[type]);
         }
 
         print();
