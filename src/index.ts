@@ -4,7 +4,6 @@ import { Color } from '../type';
 import patternList from './pattern-list';
 
 export default function startingPattern(type = 'default', color: Color = 'green', pattern = ''): Plugin {
-  console.log(555,pattern);
   return {
     name: 'vite-plugin-starting-pattern',
     apply: 'serve',
@@ -12,12 +11,15 @@ export default function startingPattern(type = 'default', color: Color = 'green'
       // 可以做进一步的修改，会自动合入当前的配置
     },
     configureServer(server) {
-      const print = server.printUrls;
+      const _print = server.printUrls; // 存储 vite 内置的 printUrls函数
       const outPutLogInfo = (str) => {
         console.log(colors[color](str));
       };
 
+      // 重写printUrls函数
       server.printUrls = () => {
+        _print(); // 执行内置的printUrls函数，打到合并效果
+
         const network = server.resolvedUrls?.network[0];
         const local = server.resolvedUrls?.local[0];
 
@@ -32,8 +34,6 @@ export default function startingPattern(type = 'default', color: Color = 'green'
         } else {
           outPutLogInfo(patternList[type]);
         }
-
-        print();
       };
     }
   };
